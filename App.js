@@ -146,15 +146,14 @@ export default class App extends React.Component {
 				name: currentResponse.name,
 				country: country,
 				temp: Math.ceil(r.temp),
-				type: currentResponse.weather[0].main
+				type: currentResponse.weather[0].main,
+				desc: 'Humidity: '+r.humidity+'% - '+ currentResponse.weather[0].main,
 			};
 			currentCities.push(city);
-			console.log("BEFORE UPDATE ", this.state.list);
 			this.setState({
 				list: currentCities,
 				refresh: true,
 			})
-			console.log("AFTER UPDATE ", this.state.list);
 		});
 
 	}
@@ -167,7 +166,6 @@ export default class App extends React.Component {
 		});
 		this.fetchTemperatures();
 	}
-
 
 	render() {
 		return (

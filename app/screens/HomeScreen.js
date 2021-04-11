@@ -99,7 +99,8 @@ const style = StyleSheet.create({
 				textAlign: 'center'
 			},
 	row: {
-		flew: 1,
+		flex: 1,
+		width: '100%',
 		paddingVertical: 25,
 		paddingHorizontal: 15,
 		flexDirection: 'row',
@@ -110,7 +111,7 @@ const style = StyleSheet.create({
 	cityName: {
 		fontSize: 20,
 		lineHeight: 40,
-		fontFamily: 'Avenir'
+		fontFamily: 'Roboto'
 	},
 	temp: {
 		fontSize: 30,
@@ -118,7 +119,7 @@ const style = StyleSheet.create({
 		width: 130,
 		marginRight: 15,
 		fontWeight: 'bold',
-		fontFamily: 'Avenir'
+		fontFamily: 'Roboto'
 	}
 
 });

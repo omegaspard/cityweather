@@ -99,7 +99,8 @@ const style = StyleSheet.create({
 				textAlign: 'center'
 			},
 	row: {
-		flew: 1,
+		flex: 1,
+		width: '100%',
 		paddingVertical: 25,
 		paddingHorizontal: 15,
 		flexDirection: 'row',

@@ -111,7 +111,7 @@ const style = StyleSheet.create({
 	cityName: {
 		fontSize: 20,
 		lineHeight: 40,
-		fontFamily: 'Avenir'
+		fontFamily: 'Roboto'
 	},
 	temp: {
 		fontSize: 30,
@@ -119,7 +119,7 @@ const style = StyleSheet.create({
 		width: 130,
 		marginRight: 15,
 		fontWeight: 'bold',
-		fontFamily: 'Avenir'
+		fontFamily: 'Roboto'
 	}
 
 });

@@ -3,9 +3,10 @@ import { View, Text } from "react-native";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import HomeScreen from './app/screens/HomeScreen.js'
-
+import SearchScreen from './app/screens/SearchScreen.js'
 
 export default class App extends React.Component {
 
@@ -117,7 +118,11 @@ export default class App extends React.Component {
 					}
 			],
 			list: [],
-			refresh: true
+			refresh: true,
+			searchInput: 'a',
+			searchResult: 0,
+			item: {},
+			error: "Search for a city..."	
 
 		};
 
@@ -135,6 +140,7 @@ export default class App extends React.Component {
 		var randomizedCities = shuffle(cities).slice(0, numberOfCities);
 		return randomizedCities;
 	}
+
 
 	fetchCityTemp = ( city, country, currentCities ) => {
 		var apiURL =  'http://api.openweathermap.org/data/2.5/weather?q='+city+','+country+'&appid='+this.apikey+'&units=metric';
@@ -158,26 +164,55 @@ export default class App extends React.Component {
 
 	}
 
-
 	loadNewTemps = () => {
 		this.setState({
 			list: [],
 			refresh: true,
 		});
+		
 		this.fetchTemperatures();
 	}
+
+
+	searchCity = () => {
+		console.log("Hello " + this.state.searchInput)
+		var apiURL = 'http://api.openweathermap.org/data/2.5/weather?q='+'London'+'&appid='+this.apikey+'&units=metric';
+		fetch(apiURL).then((response) => response.json())
+		.then((responseJson) => {
+			var r = responseJson.main;
+			var currentResponse = responseJson;
+			var city = {
+				name: currentResponse.name,
+				temp: Math.ceil(r.temp),
+				type: currentResponse.weather[0].main,
+				desc: 'Humidity: ' + r.humidity + '% - ' + currentResponse.weather[0].main
+			};
+			
+			this.setState({
+				searchResult: 1,
+				item: city,
+			})
+		})
+		console.log("HA " + this.state.searchResult);
+	}
+
+	
 
 	render() {
 		return (
 			<NavigationContainer>
-				<Stack.Navigator>
+				<BottomTab.Navigator>
                                 	<Stack.Screen name="Home" options={{headerShown: false}}>
                                 		{props => <HomeScreen {...props} data={this.state.list} refreshing={this.state.refresh} onRefresh={this.loadNewTemps}/> }
                                 	</Stack.Screen>
-                                </Stack.Navigator>
+					<Stack.Screen name="Search">
+						{props => <SearchScreen {...props} data={this.state.list} onPress={this.searchCity} error={this.state.error} item={this.state.item} searchResult={this.state.searchResult}/> }
+					</Stack.Screen>
+                                </BottomTab.Navigator>
 			</NavigationContainer>
   		);
 	}
 }
 
 const Stack = createStackNavigator();
+const BottomTab = createBottomTabNavigator();

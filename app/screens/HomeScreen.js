@@ -51,7 +51,6 @@ export function getTempRange(temperature) {
 }
 
 export function getEmoji(type) {
-	console.log(type);
 	if(type == 'Clouds') {
 		return '☁️';
 	}

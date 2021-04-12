@@ -127,7 +127,7 @@ export default class App extends React.Component {
 
 	fetchTemperatures = () => {
 		var currentCities = []
-		this.getRandomCities(this.state.cities, 12).forEach(city => this.fetchCityTemp(city.name, city.country, currentCities));
+		this.getRandomCities(this.state.cities, 25).forEach(city => this.fetchCityTemp(city.name, city.country, currentCities));
 	}
 
 	getRandomCities = (cities, numberOfCities) => {
@@ -152,7 +152,7 @@ export default class App extends React.Component {
 			currentCities.push(city);
 			this.setState({
 				list: currentCities,
-				refresh: true,
+				refresh: false,
 			})
 		});
 
@@ -172,7 +172,7 @@ export default class App extends React.Component {
 			<NavigationContainer>
 				<Stack.Navigator>
                                 	<Stack.Screen name="Home" options={{headerShown: false}}>
-                                		{props => <HomeScreen {...props} data={this.state.list} refreshing={this.state.refresh} onRefresh={this.state.loadNewTemps}/> }
+                                		{props => <HomeScreen {...props} data={this.state.list} refreshing={this.state.refresh} onRefresh={this.loadNewTemps}/> }
                                 	</Stack.Screen>
                                 </Stack.Navigator>
 			</NavigationContainer>

@@ -44,7 +44,8 @@ export function getEmoji(type) {
 
 }
 
-export default function SearchScreen( { route, navigation, onPress, searchResult, error, currentState, item } ) {
+export default function SearchScreen( { route, navigation, onPress, searchResult, setSearchInputClass, error, currentState, item } ) {
+	/* Those are only relevant to the state of this function and not the state of the App class. */
 	const [searchInput, setSearchInput] = useState('');
 	return(
 		<View style={style.container}>
@@ -55,20 +56,15 @@ export default function SearchScreen( { route, navigation, onPress, searchResult
 				<Text>Search for a city</Text>
 				<TextInput
 					onChangeText={(value) => {
-						console.log("THE SEARCH INPUT BEFORE " + searchInput)
-						console.log("THE TEXT " + value)
 						setSearchInput(value)
-						console.log("THE SEARCH INPUT AFTER " + searchInput)
+						setSearchInputClass(value)
 					}}
 					value={searchInput}
 					style={{ width: '80%', padding: 15, margin: 5, backgroundColor: 'black', color: 'white'}}
 				/>
 				<TouchableHighlight
 					style={{backgroundColor: 'grey', padding: 20, borderRadius: 8}}
-					onPress={(value) => { 
-						setSearchInput(value);
-						onPress();
-					}}
+					onPress={onPress}
 				>
 					<Text style={{fontSize: 14, color:'white'}}>Search</Text>
 				</TouchableHighlight>

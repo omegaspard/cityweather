@@ -119,7 +119,7 @@ export default class App extends React.Component {
 			],
 			list: [],
 			refresh: true,
-			searchInput: 'a',
+			searchInput: '',
 			searchResult: 0,
 			item: {},
 			error: "Search for a city..."	
@@ -173,27 +173,44 @@ export default class App extends React.Component {
 		this.fetchTemperatures();
 	}
 
+	setSearchInputClass = (value) => {
+		this.setState({
+			searchInput: value
+		})
+	}
+
 
 	searchCity = () => {
-		console.log("Hello " + this.state.searchInput)
-		var apiURL = 'http://api.openweathermap.org/data/2.5/weather?q='+'London'+'&appid='+this.apikey+'&units=metric';
+		
+		this.setState({
+			item: {},
+			searchResult: 0,
+			error: 'Search for a city...',
+		});
+		var apiURL = 'http://api.openweathermap.org/data/2.5/weather?q='+this.state.searchInput+'&appid='+this.apikey+'&units=metric';
 		fetch(apiURL).then((response) => response.json())
 		.then((responseJson) => {
 			var r = responseJson.main;
 			var currentResponse = responseJson;
-			var city = {
-				name: currentResponse.name,
-				temp: Math.ceil(r.temp),
-				type: currentResponse.weather[0].main,
-				desc: 'Humidity: ' + r.humidity + '% - ' + currentResponse.weather[0].main
-			};
+			if( currentResponse.cod !== 200) {
+				this.setState({
+					searchResult: 0,
+					error: 'City not found !'
+				});
+			} else {
+				var city = {
+					name: currentResponse.name,
+					temp: Math.ceil(r.temp),
+					type: currentResponse.weather[0].main,
+					desc: 'Humidity: ' + r.humidity + '% - ' + currentResponse.weather[0].main
+				};
 			
-			this.setState({
-				searchResult: 1,
-				item: city,
-			})
+				this.setState({
+					searchResult: 1,
+					item: city,
+				})
+			}
 		})
-		console.log("HA " + this.state.searchResult);
 	}
 
 	
@@ -206,7 +223,7 @@ export default class App extends React.Component {
                                 		{props => <HomeScreen {...props} data={this.state.list} refreshing={this.state.refresh} onRefresh={this.loadNewTemps}/> }
                                 	</Stack.Screen>
 					<Stack.Screen name="Search">
-						{props => <SearchScreen {...props} data={this.state.list} onPress={this.searchCity} error={this.state.error} item={this.state.item} searchResult={this.state.searchResult}/> }
+						{props => <SearchScreen {...props} data={this.state.list} onPress={this.searchCity} error={this.state.error} item={this.state.item} searchResult={this.state.searchResult} setSearchInputClass={this.setSearchInputClass}/> }
 					</Stack.Screen>
                                 </BottomTab.Navigator>
 			</NavigationContainer>

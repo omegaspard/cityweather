@@ -1,5 +1,14 @@
 import { StyleSheet } from 'react-native';
 
+const apiKey = '0d7ed93ee558acee35aa5361a6146be6';
+
+export const fetchWeather = (city) => {
+	var apiURL = 'http://api.openweathermap.org/data/2.5/weather?q='+city+'&appid='+apiKey+'&units=metric';
+		
+	return fetch(apiURL).then((response) => response.json())
+}
+
+
 export const style = StyleSheet.create({
 	cold: { color: 'blue'},
 	medium: { color: 'green'},

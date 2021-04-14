@@ -222,9 +222,7 @@ export default class App extends React.Component {
                                 	<Stack.Screen name="Home" options={{headerShown: false}}>
                                 		{props => <HomeScreen {...props} data={this.state.list} refreshing={this.state.refresh} onRefresh={this.loadNewTemps}/> }
                                 	</Stack.Screen>
-					<Stack.Screen name="Search">
-						{props => <SearchScreen {...props} data={this.state.list} onPress={this.searchCity} error={this.state.error} item={this.state.item} searchResult={this.state.searchResult} setSearchInputClass={this.setSearchInputClass}/> }
-					</Stack.Screen>
+					<Stack.Screen name="Search" component={SearchScreen}/>
                                 </BottomTab.Navigator>
 			</NavigationContainer>
   		);

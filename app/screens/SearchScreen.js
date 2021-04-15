@@ -50,12 +50,7 @@ export default class SerachScreen extends React.Component {
 		this.resetState();
 		utils.fetchWeather(this.state.searchInput).then(response => { 
 			if (response.cod == 200) {
-					this.setItemState({
-						name: response.name,
-						temp: Math.ceil(response.main.temp),
-						type: response.weather[0].main,
-						desc: 'Humidity: ' + response.main.humidity + '% - ' + response.weather[0].main
-					});
+					this.setItemState(utils.extractCityInfoFrom(response));
 					this.setRenderable();
 			}
 		});

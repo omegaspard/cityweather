@@ -179,7 +179,6 @@ export default class App extends React.Component {
 		})
 	}
 
-
 	searchCity = () => {
 		
 		this.setState({
@@ -219,9 +218,7 @@ export default class App extends React.Component {
 		return (
 			<NavigationContainer>
 				<BottomTab.Navigator>
-                                	<Stack.Screen name="Home" options={{headerShown: false}}>
-                                		{props => <HomeScreen {...props} data={this.state.list} refreshing={this.state.refresh} onRefresh={this.loadNewTemps}/> }
-                                	</Stack.Screen>
+                                	<Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
 					<Stack.Screen name="Search" component={SearchScreen}/>
                                 </BottomTab.Navigator>
 			</NavigationContainer>

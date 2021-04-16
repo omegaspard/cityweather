@@ -3,143 +3,115 @@ import { useState } from 'react';
 import { TextInput, View, Text, StyleSheet, FlatList, StatusBar, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export function getTempRange(temperature) {
-	if( temperature < 11) {
-		return style.cold;
-	}
-	else if( temperature >= 11 && temperature < 20) {
-		return style.medium;
-	}
-	else if( temperature >= 20 && temperature <= 30) {
-		return style.hot;
-	}
-	else if( temperature >= 30) {
-		return style.veryHot;
-	}
-}
 
-export function getEmoji(type) {
-	if(type == 'Clouds') {
-		return '☁️';
-	}
-	if(type == 'Clear') {
-		return '☀️';
-	}
-	if(type == 'Haze') {
-		return '🌫️';
-	}
-	if(type == 'Thunderstorm') {
-		return '🌩️';
-	}
-	if(type == 'Rain') {
-		return '🌧️';
-	}
-	if(type == 'Snow') {
-		return '❄️';
-	}
-	if(type == 'Mist') {
-		return '🌫️';
+var utils = require('./utils');
+
+export default class SerachScreen extends React.Component {
+	constructor(props) {
+		super(props);
+		this.navigation = props.navigation;
+		this.state = {
+			searchInput: '',
+			item : {},
+			renderable: false		
+		};
+
+		this.errorMessage = 'Search for cities...';
 	}
 
+	resetState = () => {
+		this.setState({
+			item: {},
+			renderable: false,
+		});
+	}
 
-}
+	setSearchInput = (value) => {
+		this.setState({
+			searchInput: value
+		});
+	} 
 
-export default function SearchScreen( { route, navigation, onPress, searchResult, setSearchInputClass, error, currentState, item } ) {
-	/* Those are only relevant to the state of this function and not the state of the App class. */
-	const [searchInput, setSearchInput] = useState('');
-	return(
-		<View style={style.container}>
-			<StatusBar barStyle="light-content" />
-			<Text style={style.titleContainer}>☀️  CityWeather</Text>
+	searchCity = () => {	
+		this.resetState();
+		utils.fetchWeather(this.state.searchInput).then(response => { 
+			if (response.cod == 200) {
+					console.log(response);	
+					this.setItemState(
+						{
+							name: response.name,
+							temp: Math.ceil(response.main.temp),
+							type: response.weather[0].main,
+							desc: 'Humidity: ' + response.main.humidity + '% - ' + response.weather[0].main  
+						}
+					);
+					this.setRenderable();
+			}	
+		});
+	}
 
-			<View style={{alignItems: 'center', width:'90%'}}>
-				<Text>Search for a city</Text>
-				<TextInput
-					onChangeText={(value) => {
-						setSearchInput(value)
-						setSearchInputClass(value)
-					}}
-					value={searchInput}
-					style={{ width: '80%', padding: 15, margin: 5, backgroundColor: 'black', color: 'white'}}
-				/>
-				<TouchableHighlight
-					style={{backgroundColor: 'grey', padding: 20, borderRadius: 8}}
-					onPress={onPress}
-				>
-					<Text style={{fontSize: 14, color:'white'}}>Search</Text>
-				</TouchableHighlight>
-			</View>
-			
-			{ searchResult == 1 ? (
-				<TouchableHighlight 
-						underlayColor="white"
-						onPress={ () => alert(item.desc) }
+	setItemState = (newItem) => {
+		this.setState(
+				{
+					item: newItem,
+				}
+		); 
+	}
+
+	setRenderable = () => {
+		this.setState(
+				{
+					renderable: true,
+				}
+		);
+	}
+
+	render = () => {
+		return(
+			<View style={utils.style.container}>
+				<StatusBar barStyle="light-content" />
+				<Text style={utils.style.titleContainer}>☀️  CityWeather</Text>
+
+				<View style={{alignItems: 'center', width:'90%'}}>
+					<Text>Search for a city</Text>
+					<TextInput
+						onChangeText={(value) => this.setSearchInput(value)}
+						value={this.searchInput}
+						style={{ width: '80%', padding: 15, margin: 5, backgroundColor: 'black', color: 'white' }}
+					/>
+					<TouchableHighlight
+						style={{backgroundColor: 'grey', padding: 20, borderRadius: 8}}
+						onPress={this.searchCity}
 					>
-						<LinearGradient
-							colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0)']}
-							start={[0, 0.5]}
-						>
-							<View style={style.row}>
-								<Text style={[getTempRange(item.temp), style.temp]}> {getEmoji(item.type)} {item.temp} °C</Text>
-								<Text style={style.cityName}>{item.name}</Text>
-							</View>
-						</LinearGradient>
+						<Text style={{fontSize: 14, color:'white'}}>Search</Text>
 					</TouchableHighlight>
-			) : (
-				<View style={{flex: 1, justifyContent: 'center', alignItems: 'center', fontSize: 32}}>
-						<Text>{error}</Text>
 				</View>
-				)
-			}
-		</View>
-	);
+			
+				{ this.state.renderable ? (
+					<TouchableHighlight 
+							underlayColor="white"
+							onPress={ () => alert(this.item.desc) }
+						>
+							<LinearGradient
+								colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0)']}
+								start={[0, 0.5]}
+							>
+								<View style={utils.style.row}>
+									<Text style={[utils.getTempRange(this.state.item.temp), utils.style.temp]}> {utils.getEmoji(this.state.item.type)} {this.state.item.temp} °C</Text>
+									<Text style={utils.style.cityName}>{this.state.item.name}</Text>
+								</View>
+							</LinearGradient>
+					</TouchableHighlight>
+					) : (
+						<View style={{flex: 1, justifyContent: 'center', alignItems: 'center', fontSize: 32}}>
+							<Text>{this.errorMessage}</Text>
+						</View>
+					)
+				}
+			</View>
+		);		
+	}
 }
 
-const style = StyleSheet.create({
-	cold: { color: 'blue'},
-	medium: { color: 'green'},
-	hot: { color: 'orange'},
-	veryHot: { color: 'red'},
-	container:
-		{
-			justifyContent: 'flex-start',
-			alignItems: 'center',
-			flex: 1,
-			backgroundColor: '#fff',
-		},
-	titleContainer:
-			{
-				width: '100%',
-				paddingBottom: 15,
-				paddingTop: 40,
-				backgroundColor: 'black',
-				color: 'white',
-				textAlign: 'center'
-			},
-	row: {
-		flex: 1,
-		width: '100%',
-		paddingVertical: 25,
-		paddingHorizontal: 15,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		borderBottomWidth: 1,
-		borderBottomColor: 'white'
-	},
-	cityName: {
-		fontSize: 20,
-		lineHeight: 40,
-		fontFamily: 'Roboto'
-	},
-	temp: {
-		fontSize: 30,
-		lineHeight: 40,
-		width: 130,
-		marginRight: 15,
-		fontWeight: 'bold',
-		fontFamily: 'Roboto'
-	}
-
-});
 
 

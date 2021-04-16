@@ -24,5 +24,6 @@
     "web": "expo start --web",
     "eject": "expo eject"
   },
-  "private": true
+  "private": true,
+  "name": "app"
 }

@@ -26,20 +26,6 @@ export default class SerachScreen extends React.Component {
 		});
 	}
 
-	setItemState = (city) => {
-		console.log(city);
-		this.setState({
-			item: city
-		});
-	}
-
-	setRenderable = () => {
-		this.setState({
-			renderable: true
-		});
-		console.log(this.renderable);	
-	}
-
 	setSearchInput = (value) => {
 		this.setState({
 			searchInput: value
@@ -50,11 +36,34 @@ export default class SerachScreen extends React.Component {
 		this.resetState();
 		utils.fetchWeather(this.state.searchInput).then(response => { 
 			if (response.cod == 200) {
-					this.setItemState(utils.extractCityInfoFrom(response));
+					console.log(response);	
+					this.setItemState(
+						{
+							name: response.name,
+							temp: Math.ceil(response.main.temp),
+							type: response.weather[0].main,
+							desc: 'Humidity: ' + response.main.humidity + '% - ' + response.weather[0].main  
+						}
+					);
 					this.setRenderable();
-			}
+			}	
 		});
-		console.log(this.item);
+	}
+
+	setItemState = (newItem) => {
+		this.setState(
+				{
+					item: newItem,
+				}
+		); 
+	}
+
+	setRenderable = () => {
+		this.setState(
+				{
+					renderable: true,
+				}
+		);
 	}
 
 	render = () => {
@@ -68,7 +77,7 @@ export default class SerachScreen extends React.Component {
 					<TextInput
 						onChangeText={(value) => this.setSearchInput(value)}
 						value={this.searchInput}
-						style={{ width: '80%', padding: 15, margin: 5, backgroundColor: 'black', color: 'white'}}
+						style={{ width: '80%', padding: 15, margin: 5, backgroundColor: 'black', color: 'white' }}
 					/>
 					<TouchableHighlight
 						style={{backgroundColor: 'grey', padding: 20, borderRadius: 8}}

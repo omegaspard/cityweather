@@ -10,7 +10,7 @@ export default class HomeScreen extends React.Component {
 		this.navigation = props.navigation;
 		this.state = {
 			item: {},
-			refreshing: false,
+			refreshing: true,
 			cities: [] 
 		};
 
@@ -71,7 +71,14 @@ export default class HomeScreen extends React.Component {
 	fetchCityTemperature = ( city, country ) => {
 		var weatherLocation = city + ',' + country;
 		utils.fetchWeather(weatherLocation).then((data) => {
-			this.pushCity(utils.extractCityInfoFrom(data));
+			this.pushCity(
+					{
+						name: data.name,
+						temp: Math.ceil(data.main.temp),
+						type: data.weather[0].main,
+						desc: 'Humidity: ' + data.main.humidity + '% - ' + data.weather[0].main  
+					}
+			)
 		});		
 	}
 

@@ -12,10 +12,9 @@ export default class HomeScreen extends React.Component {
 			item: {},
 			refreshing: false,
 			cities: [] 
-		}
+		};
 
-		this.getCitiesTemperature()
-		
+		this.fetchCitiesTemperature()
 	}
 
 	render = () => {
@@ -51,7 +50,7 @@ export default class HomeScreen extends React.Component {
 
 	getCitiesTemperature = () => {
 		this.setState({
-			list: [],
+			cities: [],
 			refreshing: true,
 		});
 		
@@ -59,10 +58,10 @@ export default class HomeScreen extends React.Component {
 	}
 	
 	fetchCitiesTemperature = () => {	
-		this.fetchRandomCities(utils.CITIES, 25).forEach(city => this.fetchCityTemperature(city.name, city.country));
+		this.getRandomCities(utils.CITIES, 2).forEach(city => this.fetchCityTemperature(city.name, city.country));
 	}
 
-	fetchRandomCities = (cities, numberOfCities) => {
+	getRandomCities = (cities, numberOfCities) => {
 		var shuffle = require('shuffle-array');
 		var randomizedCities = shuffle(cities).slice(0, numberOfCities);
 		return randomizedCities;
@@ -77,41 +76,11 @@ export default class HomeScreen extends React.Component {
 	}
 
 	pushCity = (city) => {
+		var currentCities = this.state.cities;
+		currentCities.push(city);
 		this.setState({
-			cities: this.state.cities + [city],
+			cities: currentCities,
 			refreshing: false,
 		})
 	}
 }
-/*
-export default function HomeScreen( { route, navigation, data, refreshing, onRefresh } ) {
-	return(
-		<View style={utils.style.container}>
-			<StatusBar barStyle="light-content" />
-			<Text style={utils.style.titleContainer}>☀️  CityWeather</Text>
-			<FlatList
-				data={data}
-				refreshing={refreshing}
-				onRefresh={onRefresh}
-				keyExtractor={(item, index) => index.toString()}
-				renderItem={({item, index}) => (
-					<TouchableHighlight 
-						underlayColor="white"
-						onPress={ () => alert(item.desc) }
-					>
-						<LinearGradient
-							colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0)']}
-							start={[0, 0.5]}
-						>
-							<View style={utils.style.row}>
-								<Text style={[utils.getTempRange(item.temp), utils.style.temp]}> {utils.getEmoji(item.type)} {item.temp} °C</Text>
-								<Text style={utils.style.cityName}>{item.name}</Text>
-							</View>
-						</LinearGradient>
-					</TouchableHighlight>
-					)
-				}
-			/>
-		</View>
-	);
-}*/

@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { TextInput, View, Text, StyleSheet, FlatList, StatusBar, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-
 var utils = require('./utils');
+var alertBox = require('./alertBoxVue.js');
 
 export default class SerachScreen extends React.Component {
 	constructor(props) {
@@ -13,7 +13,8 @@ export default class SerachScreen extends React.Component {
 		this.state = {
 			searchInput: '',
 			item : {},
-			renderable: false		
+			renderable: false,
+			renderAlert: false,
 		};
 
 		this.errorMessage = 'Search for cities...';
@@ -90,14 +91,16 @@ export default class SerachScreen extends React.Component {
 				{ this.state.renderable ? (
 					<TouchableHighlight 
 							underlayColor="white"
-							onPress={ () => alert(this.item.desc) }
+							onPress={ () => this.setState({renderAlert: true})}
 						>
 							<LinearGradient
 								colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0)']}
 								start={[0, 0.5]}
 							>
 								<View style={utils.style.row}>
-									<Text style={[utils.getTempRange(this.state.item.temp), utils.style.temp]}> {utils.getEmoji(this.state.item.type)} {this.state.item.temp} °C</Text>
+									<Text style={[utils.getTempRange(this.state.item.temp), utils.style.temp]}> 
+											{utils.getEmoji(this.state.item.type)} {this.state.item.temp} °C
+									</Text>
 									<Text style={utils.style.cityName}>{this.state.item.name}</Text>
 								</View>
 							</LinearGradient>
@@ -107,6 +110,21 @@ export default class SerachScreen extends React.Component {
 							<Text>{this.errorMessage}</Text>
 						</View>
 					)
+				}
+				{ 
+					this.state.renderAlert ? (
+						<View style={alertBox.styleAlertParent}>
+							<View style={alertBox.styleAlertChildren}>
+								<LinearGradient
+									style={alertBox.styleLinearGradient}
+									colors={['#136a8a', '#267871']}
+									start={[0, 0.65]}
+								>
+									<Text style={alertBox.styleText}>{this.state.item.desc}</Text>
+								</LinearGradient>
+							</View>
+						</View>
+					) : (<Text>''</Text>)
 				}
 			</View>
 		);		

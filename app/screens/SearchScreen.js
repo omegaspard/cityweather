@@ -20,6 +20,8 @@ export default class SearchScreen extends React.Component {
 		};
 
 		this.errorMessage = 'Search for cities...';
+
+		this.reverseFlyingDesc = this.reverseFlyingDesc.bind(this);
 	}
 
 	resetState = () => {
@@ -68,6 +70,14 @@ export default class SearchScreen extends React.Component {
 		);
 	}
 
+	reverseFlyingDesc = () => {
+		this.setState(
+			{
+				renderFlyingDesc: !this.state.renderFlyingDesc
+			});
+		console.log(this.state.renderFlyingDesc);
+	}
+
 	render = () => {
 		return(
 			<View style={utils.style.container}>
@@ -113,16 +123,16 @@ export default class SearchScreen extends React.Component {
 					)
 				}
 				{ 
-					renderFlyingDescription(this.state.renderFlyingDescription, this.state.item.desc)
+					this.state.renderFlyingDescription && renderFlyingDescription(this.state.renderFlyingDescription, this.state.item.desc, this.reverseFlyingDesc)
 				}	
 			</View>
 		);		
 	}
 }
 
-export function renderFlyingDescription(isInterpretable, cityDescription) {
+export function renderFlyingDescription(isInterpretable, cityDescription, reverseFlyingDesc) {
 	if(isInterpretable) {
-		return <FlyingDescription cityDescription={cityDescription} />
+		return <FlyingDescription cityDescription={cityDescription} closeFlyingDesc={reverseFlyingDesc}/>
 	}
 }
 

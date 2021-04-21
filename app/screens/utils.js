@@ -52,7 +52,7 @@ export const style = StyleSheet.create({
 		{
 			fontSize: 30,
 			lineHeight: 40,
-			width: 130,
+			//width: 130,
 			marginRight: 15,
 			fontWeight: 'bold'
 		}

@@ -3,20 +3,25 @@ import { useState } from 'react';
 import { TextInput, View, Text, StyleSheet, FlatList, StatusBar, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
+import FlyingDescription from './FlyingDescription.js';
 
 var utils = require('./utils');
 
-export default class SerachScreen extends React.Component {
+
+export default class SearchScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.navigation = props.navigation;
 		this.state = {
 			searchInput: '',
 			item : {},
-			renderable: false		
+			renderSearch: false,
+			renderFlyingDescription: false,
 		};
 
 		this.errorMessage = 'Search for cities...';
+
+		this.reverseFlyingDesc = this.reverseFlyingDesc.bind(this);
 	}
 
 	resetState = () => {
@@ -36,7 +41,6 @@ export default class SerachScreen extends React.Component {
 		this.resetState();
 		utils.fetchWeather(this.state.searchInput).then(response => { 
 			if (response.cod == 200) {
-					console.log(response);	
 					this.setItemState(
 						{
 							name: response.name,
@@ -45,7 +49,7 @@ export default class SerachScreen extends React.Component {
 							desc: 'Humidity: ' + response.main.humidity + '% - ' + response.weather[0].main  
 						}
 					);
-					this.setRenderable();
+					this.setRenderSearch();
 			}	
 		});
 	}
@@ -58,12 +62,19 @@ export default class SerachScreen extends React.Component {
 		); 
 	}
 
-	setRenderable = () => {
+	setRenderSearch = () => {
 		this.setState(
 				{
-					renderable: true,
+					renderSearch: true,
 				}
 		);
+	}
+
+	reverseFlyingDesc = () => {
+		this.setState(
+			{
+				renderFlyingDescription: !this.state.renderFlyingDescription
+			});
 	}
 
 	render = () => {
@@ -87,17 +98,19 @@ export default class SerachScreen extends React.Component {
 					</TouchableHighlight>
 				</View>
 			
-				{ this.state.renderable ? (
+				{ this.state.renderSearch ? (
 					<TouchableHighlight 
 							underlayColor="white"
-							onPress={ () => alert(this.item.desc) }
+							onPress={ () => this.setState({renderFlyingDescription: true})}
 						>
 							<LinearGradient
 								colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0)']}
 								start={[0, 0.5]}
 							>
-								<View style={utils.style.row}>
-									<Text style={[utils.getTempRange(this.state.item.temp), utils.style.temp]}> {utils.getEmoji(this.state.item.type)} {this.state.item.temp} °C</Text>
+								<View style={{width: '100%'}}>
+									<Text style={[utils.getTempRange(this.state.item.temp), utils.style.temp]}> 
+											{utils.getEmoji(this.state.item.type)} {this.state.item.temp} °C
+									</Text>
 									<Text style={utils.style.cityName}>{this.state.item.name}</Text>
 								</View>
 							</LinearGradient>
@@ -108,10 +121,19 @@ export default class SerachScreen extends React.Component {
 						</View>
 					)
 				}
+				{ 
+					renderFlyingDescription(this.state.renderFlyingDescription, this.state.item.desc, this.reverseFlyingDesc)
+				}	
 			</View>
 		);		
 	}
 }
 
+export function renderFlyingDescription(shouldRender, cityDescription, reverseFlyingDesc) {
+	if(shouldRender) {
+		return <FlyingDescription cityDescription={cityDescription} closeFlyingDesc={reverseFlyingDesc}/>
+	}
+}
 
 
+		

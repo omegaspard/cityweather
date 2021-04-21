@@ -5,33 +5,39 @@ import { StyleSheet, Text, TouchableHighlight, View, Clickable } from 'react-nat
 import { LinearGradient } from 'expo-linear-gradient';
 
 
-const FlyingDescription = ( { cityDescription, closeFlyingDesc }) => {
-	return (
-		<View style={styles.overlayFilter}>
-			<View style={styles.informationBox}>
-				<LinearGradient
-					colors={['#136aBa', '#267871']}
-					start={[0, 0.65]}
-					style={styles.informationBoxLinearGradient}
-				>
-					<Text>
-						{cityDescription}
-					</Text>
-					<TouchableHighlight
-						underlayColor="white"
-						onPress={closeFlyingDesc}
-					>
-						<Text>
-							Close
-						</Text>
-					</TouchableHighlight>
-				</LinearGradient>
-			</View>
-		</View>
-	)
-};
+export default class FlyingDescription extends React.Component {
+	constructor(props) {
+		super(props);
+		this.navigation = props.navigation;
+	}	
 
-export default FlyingDescription; 
+	render() {
+		return (
+			<View style={styles.overlayFilter}>
+				<View style={styles.informationBox}>
+					<LinearGradient
+						colors={['#136aBa', '#267871']}
+						start={[0, 0.65]}
+						style={styles.informationBoxLinearGradient}
+					>
+						<Text style={styles.cityDescription}>
+							{this.props.cityDescription}
+						</Text>
+						<TouchableHighlight
+							onPress={this.props.closeFlyingDesc}
+							underlayColor='none'
+						>
+							<Text style={styles.closeText}>
+								Close
+							</Text>
+						</TouchableHighlight>
+					</LinearGradient>
+				</View>
+			</View>	
+		)
+	}
+}
+
 
 const styles = StyleSheet.create({
 	
@@ -53,46 +59,23 @@ const styles = StyleSheet.create({
 	informationBoxLinearGradient: {
 		flex: 1,
 		borderRadius: 20,
+		justifyContent: 'space-between',
+		padding: 5,
+		shadowColor: 'black', 
+		shadowOffset: { width: 0, height: 2},
+		shadowOpacity: 0.3,
+		shadowRadius: 2,
 	},
-	centeredView: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		marginTop: 22
-	},
-	modalView: {
-		margin: 20,
-		backgroundColor: 'white',
-		borderRadius: 20,
-		padding: 70,
-		alignItems: 'center',
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 0,
-			heigh: 2,
-		},
-		shadowOpacity: 0.25,
-		shadowRadius: 4,
-		elevation: 5
-	},
-	button: {
-		borderRadius: 20,
-		padding: 10,
-		elevation: 2
-	},
-	buttonOpen: {
-		backgroundColor: '#136a8a',
-	},
-	buttonClose: {
-		backgroundColor: '#136a8a',
-	},
-	textStyle: {
+	cityDescription: {
+		fontSize: 16,
 		color: 'white',
-		fontWeight: 'bold',
+		padding: 10,
 		textAlign: 'center'
 	},
-	modalText: {
-		marginBottom: 15,
+	closeText: {
+		fontWeight: 'bold',
+		color: 'white',
+		padding: 10,
 		textAlign: 'center',
-	}	
+	}
 });

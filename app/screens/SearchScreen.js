@@ -73,9 +73,8 @@ export default class SearchScreen extends React.Component {
 	reverseFlyingDesc = () => {
 		this.setState(
 			{
-				renderFlyingDesc: !this.state.renderFlyingDesc
+				renderFlyingDescription: !this.state.renderFlyingDescription
 			});
-		console.log(this.state.renderFlyingDesc);
 	}
 
 	render = () => {
@@ -123,15 +122,15 @@ export default class SearchScreen extends React.Component {
 					)
 				}
 				{ 
-					this.state.renderFlyingDescription && renderFlyingDescription(this.state.renderFlyingDescription, this.state.item.desc, this.reverseFlyingDesc)
+					renderFlyingDescription(this.state.renderFlyingDescription, this.state.item.desc, this.reverseFlyingDesc)
 				}	
 			</View>
 		);		
 	}
 }
 
-export function renderFlyingDescription(isInterpretable, cityDescription, reverseFlyingDesc) {
-	if(isInterpretable) {
+export function renderFlyingDescription(shouldRender, cityDescription, reverseFlyingDesc) {
+	if(shouldRender) {
 		return <FlyingDescription cityDescription={cityDescription} closeFlyingDesc={reverseFlyingDesc}/>
 	}
 }

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, FlatList, StatusBar, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import FlyingDescription from './FlyingDescription.js'
 
 const utils = require('./utils');
 
@@ -11,10 +12,14 @@ export default class HomeScreen extends React.Component {
 		this.state = {
 			item: {},
 			refreshing: true,
-			cities: [] 
+			cities: [],
+			renderFlyingDescription: false,
+			flyingDescription: '',
 		};
 
-		this.fetchCitiesTemperature()
+		this.reverseFlyingDesc = this.reverseFlyingDesc.bind(this);
+
+		this.fetchCitiesTemperature();
 	}
 
 	render = () => {
@@ -30,7 +35,12 @@ export default class HomeScreen extends React.Component {
 					renderItem={({item, index}) => (
 						<TouchableHighlight 
 							underlayColor="white"
-							onPress={ () => alert(item.desc) }
+							onPress={ 
+									() => 
+{										this.reverseFlyingDesc(); 
+										this.setState({flyingDescription: item.desc});
+}
+								}
 						>
 							<LinearGradient
 								colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0)']}
@@ -42,10 +52,15 @@ export default class HomeScreen extends React.Component {
 								</View>
 							</LinearGradient>
 						</TouchableHighlight>
-						)
+							)
 					}
 				/>
-			</View>)
+				{
+					this.state.renderFlyingDescription && <FlyingDescription cityDescription={this.state.flyingDescription} closeFlyingDesc={this.reverseFlyingDesc} /> 
+				}
+
+			</View>
+		)
 	}
 
 	getCitiesTemperature = () => {
@@ -89,5 +104,12 @@ export default class HomeScreen extends React.Component {
 			cities: currentCities,
 			refreshing: false,
 		})
+	}
+
+	reverseFlyingDesc = () => {
+		this.setState(
+			{
+				renderFlyingDescription: !this.state.renderFlyingDescription
+			});
 	}
 }

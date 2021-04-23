@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native';
-import { Asset, Font ] from 'expo';
+import { Asset, Font } from 'expo';
 
 
 const apiKey = '152c208e0cd90790c96881d352e78c49';
@@ -10,9 +10,6 @@ export const fetchWeather = (city) => {
 	return fetch(apiURL).then((response) => response.json())
 }
 
-export function waitLoadingFon() {
-
-}
 
 export const style = StyleSheet.create({
 	cold: 

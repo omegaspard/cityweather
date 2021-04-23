@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 const apiKey = '152c208e0cd90790c96881d352e78c49';
 	
@@ -35,7 +35,7 @@ export const style = StyleSheet.create({
 	row: 
 		{
 			flex: 1,
-			width: '100%',
+			width: Dimensions.get('window').width,
 			paddingVertical: 25,
 			paddingHorizontal: 15,
 			flexDirection: 'row',

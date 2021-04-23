@@ -107,7 +107,7 @@ export default class SearchScreen extends React.Component {
 								colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0)']}
 								start={[0, 0.5]}
 							>
-								<View style={{width: '100%'}}>
+								<View style={utils.style.row}>
 									<Text style={[utils.getTempRange(this.state.item.temp), utils.style.temp]}> 
 											{utils.getEmoji(this.state.item.type)} {this.state.item.temp} °C
 									</Text>

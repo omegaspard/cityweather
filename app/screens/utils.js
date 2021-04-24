@@ -25,6 +25,7 @@ export const style = StyleSheet.create({
 			alignItems: 'center',
 			flex: 1,
 			backgroundColor: '#fff',
+			fontFamily: 'DMSans-Regular',
 		},
 	titleContainer:
 		{
@@ -33,7 +34,8 @@ export const style = StyleSheet.create({
 			paddingTop: 40,
 			backgroundColor: 'black',
 			color: 'white',
-			textAlign: 'center'
+			textAlign: 'center',
+			fontFamily: 'DMSans-Regular',
 		},
 	row: 
 		{
@@ -44,18 +46,19 @@ export const style = StyleSheet.create({
 			flexDirection: 'row',
 			justifyContent: 'space-between',
 			borderBottomWidth: 1,
-			borderBottomColor: 'white'
+			borderBottomColor: 'white',
+			fontFamily: 'DMSans-Regular',
 		},
 	cityName: 
 		{
 			fontSize: 20,
-			lineHeight: 40,
+			lineHeight: 4,
+			fontFamily: 'DMSans-Regular',
 		},
 	temp: 
 		{
 			fontSize: 30,
 			lineHeight: 40,
-			//width: 130,
 			marginRight: 15,
 			fontWeight: 'bold'
 		}

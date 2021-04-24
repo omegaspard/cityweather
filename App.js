@@ -9,6 +9,7 @@ import * as Font from 'expo-font';
 import HomeScreen from './app/screens/HomeScreen.js'
 import SearchScreen from './app/screens/SearchScreen.js'
 
+
 export default class App extends React.Component {
 
 	constructor(props) {
@@ -18,18 +19,19 @@ export default class App extends React.Component {
 			fontLoaded : false	
 		}
 	}
-
+	
 	async componentDidMount() {
 		try {
 			await Font.loadAsync({
-				'DMSans-Regular': require('./assets/DMSans-Regular.ttf')
+				'DMSans-Regular': require('./assets/DMSans-Regular.ttf'),
+				'DMSans-BoldItalic': require('./assets/DMSans-BoldItalic.ttf')
 			})
 			this.setState({ fontLoaded: true})
 		} catch (error) {
 			console.log(error)
 		}
 	}
-
+	
 	render() { 
 		if(this.state.fontLoaded) {
 			return (

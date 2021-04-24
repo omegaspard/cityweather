@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet, FlatList, StatusBar, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import FlyingDescription from './FlyingDescription.js'
+import FlyingDescription from './FlyingDescription.js';
 
 const utils = require('./utils');
 

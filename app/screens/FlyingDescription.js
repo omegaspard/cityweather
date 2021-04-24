@@ -70,12 +70,14 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		color: 'white',
 		padding: 10,
-		textAlign: 'center'
+		textAlign: 'center',
+		fontFamily: 'DMSans-Regular',
 	},
 	closeText: {
 		fontWeight: 'bold',
 		color: 'white',
 		padding: 10,
 		textAlign: 'center',
+		fontFamily: 'DMSans-Regular',
 	}
 });

@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { useState } from 'react';
+
 import { TextInput, View, Text, StyleSheet, FlatList, StatusBar, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import FlyingDescription from './FlyingDescription.js';
+import FlyingDescription from '@app/components/reusables/FlyingDescription.js';
 
-var utils = require('./utils');
+const utils = require('@app/components/utils');
 
 
 export default class SearchScreen extends React.Component {

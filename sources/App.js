@@ -32,7 +32,7 @@ export default class App extends React.Component {
 		}
 	}
 	
-	render() { 
+	render() {
 		if(this.state.fontLoaded) {
 			return (
 				<NavigationContainer>

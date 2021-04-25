@@ -1,13 +1,14 @@
 import * as React from "react";
-import { View, Text } from "react-native";
 
+import * as Font from 'expo-font';
+
+import { View, Text } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import * as Font from 'expo-font';
 
-import HomeScreen from './app/screens/HomeScreen.js'
-import SearchScreen from './app/screens/SearchScreen.js'
+import HomeScreen from '@app/components/home-screen/HomeScreen.js'
+import SearchScreen from '@app/components/search-screen/SearchScreen.js'
 
 
 export default class App extends React.Component {
@@ -23,8 +24,7 @@ export default class App extends React.Component {
 	async componentDidMount() {
 		try {
 			await Font.loadAsync({
-				'DMSans-Regular': require('./assets/DMSans-Regular.ttf'),
-				'DMSans-BoldItalic': require('./assets/DMSans-BoldItalic.ttf')
+				'DMSans-Regular': require('@fonts/DMSans-Regular.ttf'),
 			})
 			this.setState({ fontLoaded: true})
 		} catch (error) {

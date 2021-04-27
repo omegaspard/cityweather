@@ -36,9 +36,9 @@ export default class App extends React.Component {
 		if(this.state.fontLoaded) {
 			return (
 				<NavigationContainer>
-					<BottomTab.Navigator>
-						<Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
-						<Stack.Screen name="Search" component={SearchScreen}/>
+					<BottomTab.Navigator tabBarOptions={ tabBarOptions }>
+						<Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false, headerTitleStyle: { alignSelf: 'center' } }} />
+						<Stack.Screen name="Search" component={SearchScreen} />
 					</BottomTab.Navigator>
 				</NavigationContainer>
 			);
@@ -51,3 +51,9 @@ export default class App extends React.Component {
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
+
+const tabBarOptions = {
+	tabStyle: {
+		justifyContent: 'center',
+	},
+}

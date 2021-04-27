@@ -1,9 +1,10 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { Asset, Font } from 'expo';
 
-
+// TODO: To remove obviously.
 const apiKey = '152c208e0cd90790c96881d352e78c49';
-	
+
+// TODO: To put in a query utils.
 export const fetchWeather = (city) => {
 	var apiURL = 'http://api.openweathermap.org/data/2.5/weather?q='+city+'&appid='+apiKey+'&units=metric';
 		
@@ -11,6 +12,7 @@ export const fetchWeather = (city) => {
 }
 
 
+// TODO: To put elsewhere like a file dedicated with factorized style sheet.
 export const style = StyleSheet.create({
 	cold: 
 		{ color: 'blue' },
@@ -65,7 +67,7 @@ export const style = StyleSheet.create({
 
 });
 
-
+// TODO: To put in a file dedicated to utils method.
 export function getTempRange(temperature) {
 	if( temperature < 11) {
 		return style.cold;
@@ -105,6 +107,8 @@ export function getEmoji(type) {
 	}
 }
 
+
+//TODO: To put in a json file to load at runtime as json object.
 export const CITIES = 
 [
 	{

@@ -5,8 +5,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import FlyingDescription from '@app/components/reusables/FlyingDescription.js';
 
-const utils = require('@app/components/utils');
+const weatherQueries = require('@app/services/api/weatherQueries');
+const descriptionRendering = require('@app/components/common/descriptionRendering');
 
+const style = require('@app/components/common/styles').style;
 
 export default class SearchScreen extends React.Component {
 	constructor(props) {
@@ -39,7 +41,7 @@ export default class SearchScreen extends React.Component {
 
 	searchCity = () => {	
 		this.resetState();
-		utils.fetchWeather(this.state.searchInput).then(response => { 
+		weatherQueries.fetchWeather(this.state.searchInput).then(response => { 
 			if (response.cod == 200) {
 					this.setItemState(
 						{
@@ -79,9 +81,9 @@ export default class SearchScreen extends React.Component {
 
 	render = () => {
 		return(
-			<View style={utils.style.container}>
+			<View style={style.container}>
 				<StatusBar barStyle="light-content" />
-				<Text style={utils.style.titleContainer}>☀️  CityWeather</Text>
+				<Text style={style.titleContainer}>☀️  CityWeather</Text>
 
 				<View style={{alignItems: 'center', width:'90%'}}>
 					<Text>Search for a city</Text>
@@ -107,11 +109,11 @@ export default class SearchScreen extends React.Component {
 								colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0)']}
 								start={[0, 0.5]}
 							>
-								<View style={utils.style.row}>
-									<Text style={[utils.getTempRange(this.state.item.temp), utils.style.temp]}> 
-											{utils.getEmoji(this.state.item.type)} {this.state.item.temp} °C
+								<View style={style.row}>
+									<Text style={[descriptionRendering.getTempRange(this.state.item.temp), style.temp]}> 
+											{descriptionRendering.getEmoji(this.state.item.type)} {this.state.item.temp} °C
 									</Text>
-									<Text style={utils.style.cityName}>{this.state.item.name}</Text>
+									<Text style={style.cityName}>{this.state.item.name}</Text>
 								</View>
 							</LinearGradient>
 					</TouchableHighlight>

@@ -5,7 +5,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import FlyingDescription from '@app/components/reusables/FlyingDescription.js';
 
-const utils = require('@app/components/utils');
+const weatherQueries = require('@app/services/api/weatherQueries');
+const descriptionRendering = require('@app/components/common/descriptionRendering');
+
+const DEFAULT_CITIES = require('@app/components/home-screen/DefaultCities').DEFAULT_CITIES;
+const style = require('@app/components/common/styles').style;
 
 export default class HomeScreen extends React.Component {
 	constructor(props) {
@@ -26,9 +30,9 @@ export default class HomeScreen extends React.Component {
 
 	render = () => {
 		return (
-			<View style={utils.style.container}>
+			<View style={style.container}>
 				<StatusBar barStyle="light-content" />
-				<Text style={utils.style.titleContainer}>☀️  CityWeather</Text>
+				<Text style={style.titleContainer}>☀️  CityWeather</Text>
 				<FlatList
 					data={this.state.cities}
 					refreshing={this.state.refreshing}
@@ -48,9 +52,9 @@ export default class HomeScreen extends React.Component {
 								colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0)']}
 								start={[0, 0.5]}
 							>
-								<View style={utils.style.row}>
-									<Text style={[utils.getTempRange(item.temp), utils.style.temp]}> {utils.getEmoji(item.type)} {item.temp} °C</Text>
-									<Text style={utils.style.cityName}>{item.name}</Text>
+								<View style={style.row}>
+									<Text style={[descriptionRendering.getTempRange(item.temp), style.temp]}> {descriptionRendering.getEmoji(item.type)} {item.temp} °C</Text>
+									<Text style={style.cityName}>{item.name}</Text>
 								</View>
 							</LinearGradient>
 						</TouchableHighlight>
@@ -75,7 +79,7 @@ export default class HomeScreen extends React.Component {
 	}
 	
 	fetchCitiesTemperature = () => {	
-		this.getRandomCities(utils.CITIES, 2).forEach(city => this.fetchCityTemperature(city.name, city.country));
+		this.getRandomCities(DEFAULT_CITIES, 2).forEach(city => this.fetchCityTemperature(city.name, city.country));
 	}
 
 	getRandomCities = (cities, numberOfCities) => {
@@ -87,7 +91,7 @@ export default class HomeScreen extends React.Component {
 	
 	fetchCityTemperature = ( city, country ) => {
 		var weatherLocation = city + ',' + country;
-		utils.fetchWeather(weatherLocation).then((data) => {
+		weatherQueries.fetchWeather(weatherLocation).then((data) => {
 			this.pushCity(
 					{
 						name: data.name,

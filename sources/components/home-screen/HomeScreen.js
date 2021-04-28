@@ -7,8 +7,8 @@ import FlyingDescription from '@app/components/reusables/FlyingDescription.js';
 
 const weatherQueries = require('@app/services/api/weatherQueries');
 const descriptionRendering = require('@app/components/common/descriptionRendering');
-const utils = require('@app/components/utils');
 
+const DEFAULT_CITIES = require('@app/components/home-screen/DefaultCities').DEFAULT_CITIES;
 const style = require('@app/components/common/styles').style;
 
 export default class HomeScreen extends React.Component {
@@ -79,7 +79,7 @@ export default class HomeScreen extends React.Component {
 	}
 	
 	fetchCitiesTemperature = () => {	
-		this.getRandomCities(utils.CITIES, 2).forEach(city => this.fetchCityTemperature(city.name, city.country));
+		this.getRandomCities(DEFAULT_CITIES, 2).forEach(city => this.fetchCityTemperature(city.name, city.country));
 	}
 
 	getRandomCities = (cities, numberOfCities) => {

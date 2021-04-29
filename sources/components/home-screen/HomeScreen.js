@@ -21,6 +21,7 @@ export default class HomeScreen extends React.Component {
 			cities: [],
 			renderFlyingDescription: false,
 			flyingDescription: '',
+			displayCityNumber: 2,
 		};
 
 		this.reverseFlyingDesc = this.reverseFlyingDesc.bind(this);
@@ -79,7 +80,7 @@ export default class HomeScreen extends React.Component {
 	}
 	
 	fetchCitiesTemperature = () => {	
-		this.getRandomCities(DEFAULT_CITIES, 2).forEach(city => this.fetchCityTemperature(city.name, city.country));
+		this.getRandomCities(DEFAULT_CITIES, this.state.displayCityNumber).forEach(city => this.fetchCityTemperature(city.name, city.country));
 	}
 
 	getRandomCities = (cities, numberOfCities) => {

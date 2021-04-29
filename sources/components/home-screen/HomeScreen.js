@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { View, Text, StyleSheet, FlatList, StatusBar, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, FlatList, StatusBar, TouchableHighlight, Button } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import FlyingDescription from '@app/components/reusables/FlyingDescription.js';
@@ -33,7 +33,7 @@ export default class HomeScreen extends React.Component {
 		return (
 			<View style={style.container}>
 				<StatusBar barStyle="light-content" />
-				<Text style={style.titleContainer}>☀️  CityWeather</Text>
+				<Text style={style.titleContainer}><Button style={{position: 'absolute', right: 5, top: 5}} onPress={() => alert('Side bar display')} title="Settings" color="rgb(0,0,0)" accessibilityLabel="Access application settings."/>☀️  CityWeather</Text>
 				<FlatList
 					data={this.state.cities}
 					refreshing={this.state.refreshing}

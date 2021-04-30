@@ -33,7 +33,10 @@ export default class HomeScreen extends React.Component {
 		return (
 			<View style={style.container}>
 				<StatusBar barStyle="light-content" />
-				<Text style={style.titleContainer}><Button style={{position: 'absolute', right: 5, top: 5}} onPress={() => alert('Side bar display')} title="Settings" color="rgb(0,0,0)" accessibilityLabel="Access application settings."/>☀️  CityWeather</Text>
+				<View style={{ flexDirection: 'row', backgroundColor: 'black', width: '100%', fontFamily: 'DMSans-Regular', paddingTop: 30 }}>
+					<TouchableHighlight onPress={() => alert('Side bar display')}><Text style={[style.titleContainer, { marginLeft: 10 }]}>Settings</Text></TouchableHighlight>
+					<Text style={style.titleContainer}>☀️  CityWeather</Text>
+				</View>
 				<FlatList
 					data={this.state.cities}
 					refreshing={this.state.refreshing}

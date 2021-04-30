@@ -20,7 +20,7 @@ export const style = StyleSheet.create({
 		{
 			width: '100%',
 			paddingBottom: 15,
-			paddingTop: 40,
+			paddingTop: 30,
 			backgroundColor: 'black',
 			color: 'white',
 			textAlign: 'center',

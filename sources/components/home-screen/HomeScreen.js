@@ -3,6 +3,8 @@ import * as React from 'react';
 import { View, Text, StyleSheet, FlatList, StatusBar, TouchableHighlight, Button } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
+import NavIcon from '@app/components/svgs/NavIcon'
+
 import FlyingDescription from '@app/components/reusables/FlyingDescription.js';
 
 const weatherQueries = require('@app/services/api/weatherQueries');
@@ -33,8 +35,8 @@ export default class HomeScreen extends React.Component {
 		return (
 			<View style={style.container}>
 				<StatusBar barStyle="light-content" />
-				<View style={{ flexDirection: 'row', backgroundColor: 'black', width: '100%', fontFamily: 'DMSans-Regular', paddingTop: 30 }}>
-					<TouchableHighlight onPress={() => alert('Side bar display')}><Text style={[style.titleContainer, { marginLeft: 10 }]}>Settings</Text></TouchableHighlight>
+				<View style={{ flexDirection: 'row', backgroundColor: 'black', width: '100%', fontFamily: 'DMSans-Regular' }}>
+<TouchableHighlight onPress={() => alert('Side bar display')}><View style={{ marginLeft: 20, marginRight: 20, textAlign: 'center', paddingBottom: 15, paddingTop: 15 }}><NavIcon height={30} width={30} /></View></TouchableHighlight>
 					<Text style={style.titleContainer}>☀️  CityWeather</Text>
 				</View>
 				<FlatList

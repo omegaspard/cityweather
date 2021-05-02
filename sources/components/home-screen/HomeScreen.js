@@ -36,7 +36,7 @@ export default class HomeScreen extends React.Component {
 			<View style={style.container}>
 				<StatusBar barStyle="light-content" />
 				<View style={{ flexDirection: 'row', backgroundColor: 'black', width: '100%', fontFamily: 'DMSans-Regular' }}>
-<TouchableHighlight onPress={() => alert('Side bar display')}><View style={{ marginLeft: 20, marginRight: 20, textAlign: 'center', paddingBottom: 15, paddingTop: 15 }}><NavIcon height={30} width={30} /></View></TouchableHighlight>
+<TouchableHighlight onPress={() => this.navigation.openDrawer()}><View style={{ marginLeft: 20, marginRight: 20, textAlign: 'center', paddingBottom: 15, paddingTop: 15 }}><NavIcon height={30} width={30} /></View></TouchableHighlight>
 					<Text style={style.titleContainer}>☀️  CityWeather</Text>
 				</View>
 				<FlatList

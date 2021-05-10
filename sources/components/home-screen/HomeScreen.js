@@ -17,13 +17,14 @@ export default class HomeScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.navigation = props.navigation;
+		this.route = props.route;
 		this.state = {
 			item: {},
 			refreshing: true,
 			cities: [],
 			renderFlyingDescription: false,
 			flyingDescription: '',
-			displayCityNumber: 2,
+			displayCityNumber: 10,
 		};
 
 		this.reverseFlyingDesc = this.reverseFlyingDesc.bind(this);
@@ -85,9 +86,9 @@ export default class HomeScreen extends React.Component {
 	}
 	
 	fetchCitiesTemperature = () => {	
-		this.getRandomCities(DEFAULT_CITIES, this.state.displayCityNumber).forEach(city => this.fetchCityTemperature(city.name, city.country));
-	}
-
+			this.getRandomCities(DEFAULT_CITIES, this.route.params?.number).forEach(city => this.fetchCityTemperature(city.name, city.country));
+				}
+	
 	getRandomCities = (cities, numberOfCities) => {
 		var shuffle = require('shuffle-array');
 		var randomizedCities = shuffle(cities).slice(0, numberOfCities);

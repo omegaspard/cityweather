@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { View, Text, Buttonn, FlatList, ScrollView } from 'react-native';
+import { View, Text, Buttonn, FlatList, ScrollView, StyleSheet, TouchableHighlight } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
 import NumericInput from 'react-native-numeric-input';
 
 const style = require('@app/components/common/styles').style;
@@ -10,7 +11,7 @@ export default class HomeSettingsScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.navigation = props.navigation;
-
+		this.route = props.route;
 		this.state = {
 			homeCitiesNumber: 10,
 		}
@@ -24,15 +25,34 @@ export default class HomeSettingsScreen extends React.Component {
 						<Text style={style.titleContainer}>Settings</Text>
 					</View>
 				</View>
-				<NumericInput
-					value={this.state.homeCitiesNumber} 
-					onChange={value => this.setState({homeCitiesNumber: value})}
-					minValue={0}
-					maxValue={25}
-					initValue={this.state.homeCitiesNumber}
-					/> 
-				<NumericInput onChange={value => console.log(value)} />
+				<View style={styles.settingBoxs}>
+					<Text style={ styles.boxTitle }>Number of cities:</Text>
+					<NumericInput
+						value={ this.state.homeCitiesNumber } 
+						onChange={ value => { 
+									this.setState({ homeCitiesNumber: value }); 
+									this.navigation.dispatch({...CommonActions.setParams({ number: this.state.homeCitiesNumber }), source: this.route.key,})}}
+						minValue={ 0 }
+						maxValue={ 25  }
+						initValue={ this.state.homeCitiesNumber }
+						type='up-down'
+						rounded
+						upDownButtonsBackgroundColor='black'
+						iconStyle={ styles.arrowStyle }	
+						style={ styles.box }
+					/>
+				</View>
 			</ScrollView>
 		)
 	}
 }
+
+const styles = StyleSheet.create({
+	arrowStyle:{ color: 'white' },
+	settingBoxs:{
+		margin: 10,
+		padding: 15,
+		justifyContent: 'center',
+		alignItems: 'center'		
+	},
+})

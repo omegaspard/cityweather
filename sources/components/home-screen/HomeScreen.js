@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import NavIcon from '@app/components/svgs/NavIcon'
 
+import { AppSettingsContext } from '@app/components/AppSettingsContext';
 import FlyingDescription from '@app/components/reusables/FlyingDescription.js';
 
 const weatherQueries = require('@app/services/api/weatherQueries');
@@ -13,18 +14,18 @@ const descriptionRendering = require('@app/components/common/descriptionRenderin
 const DEFAULT_CITIES = require('@app/components/home-screen/DefaultCities').DEFAULT_CITIES;
 const style = require('@app/components/common/styles').style;
 
+
 export default class HomeScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.navigation = props.navigation;
-		this.route = props.route;
 		this.state = {
 			item: {},
 			refreshing: true,
 			cities: [],
 			renderFlyingDescription: false,
 			flyingDescription: '',
-			displayCityNumber: 10,
+			numberOfCityToDisplay: 5,
 		};
 
 		this.reverseFlyingDesc = this.reverseFlyingDesc.bind(this);
@@ -85,8 +86,8 @@ export default class HomeScreen extends React.Component {
 		this.fetchCitiesTemperature();
 	}
 	
-	fetchCitiesTemperature = () => {	
-			this.getRandomCities(DEFAULT_CITIES, this.route.params?.number).forEach(city => this.fetchCityTemperature(city.name, city.country));
+	fetchCitiesTemperature = () => {
+			this.getRandomCities(DEFAULT_CITIES, ).forEach(city => this.fetchCityTemperature(city.name, city.country));
 				}
 	
 	getRandomCities = (cities, numberOfCities) => {
@@ -126,3 +127,5 @@ export default class HomeScreen extends React.Component {
 			});
 	}
 }
+
+HomeScreen.contextType = AppSettingsContext;

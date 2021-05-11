@@ -5,6 +5,7 @@ import * as Font from 'expo-font';
 import { View, Text, Button } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 
+import { AppSettingsContext } from '@app/components/AppSettingsContext';
 import MainNavigation from '@app/navigation/MainNavigation';
 
 export default class App extends React.Component {
@@ -13,7 +14,8 @@ export default class App extends React.Component {
 		super(props);                          					
 		var navigation = this.props.navigation;				
 		this.state = {
-			fontLoaded : false	
+			fontLoaded : false,
+			numberOfCityToDisplay: 10,	
 		}
 	}
 	
@@ -27,13 +29,28 @@ export default class App extends React.Component {
 			console.log(error)
 		}
 	}
+
+	updateNumberOfCityToDisplay(newValue) {
+		this.setState({
+			numberOfCityToDisplay: newValue,
+		})
+	}
 	
 	render() {
 		if(this.state.fontLoaded) {
 			return (
-				<NavigationContainer>
-					<MainNavigation />
-				</NavigationContainer>
+				<AppSettingsContext.Provider 
+					value={
+						{
+							numberOfCityToDisplay: this.state.numberOfCityToDisplay,
+							updateNumberOfCityToDisplay: this.updateNumberOfCityToDisplay,
+						}
+					}
+				>
+					<NavigationContainer>
+						<MainNavigation />
+					</NavigationContainer>
+				</AppSettingsContext.Provider>
 			);
 		}
 		else {

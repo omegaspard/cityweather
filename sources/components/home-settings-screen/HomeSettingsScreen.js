@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View, Text, Buttonn, FlatList, ScrollView, StyleSheet, TouchableHighlight } from 'react-native';
+import { View, Text, Button, FlatList, ScrollView, StyleSheet, TouchableHighlight } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
 import NumericInput from 'react-native-numeric-input';
 
@@ -31,7 +31,7 @@ export default class HomeSettingsScreen extends React.Component {
 						value={ this.state.homeCitiesNumber } 
 						onChange={ value => { 
 									this.setState({ homeCitiesNumber: value }); 
-									this.navigation.dispatch({...CommonActions.setParams({ number: this.state.homeCitiesNumber }), source: this.route.key,})}}
+									this.navigation.dispatch({...CommonActions.setParams({ number: this.state.homeCitiesNumber })})}}
 						minValue={ 0 }
 						maxValue={ 25  }
 						initValue={ this.state.homeCitiesNumber }
@@ -42,6 +42,8 @@ export default class HomeSettingsScreen extends React.Component {
 						style={ styles.box }
 					/>
 				</View>
+				<Button title="Back" onPress={() => { console.log(this.route); this.navigation.goBack() }} />
+									
 			</ScrollView>
 		)
 	}

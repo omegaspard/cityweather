@@ -1,7 +1,9 @@
 import * as React from 'react';
 
-import { View, Text, StyleSheet, FlatList, StatusBar, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, FlatList, StatusBar, TouchableHighlight, Button } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+
+import NavIcon from '@app/components/svgs/NavIcon'
 
 import FlyingDescription from '@app/components/reusables/FlyingDescription.js';
 
@@ -15,12 +17,14 @@ export default class HomeScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.navigation = props.navigation;
+		this.route = props.route;
 		this.state = {
 			item: {},
 			refreshing: true,
 			cities: [],
 			renderFlyingDescription: false,
 			flyingDescription: '',
+			displayCityNumber: 10,
 		};
 
 		this.reverseFlyingDesc = this.reverseFlyingDesc.bind(this);
@@ -32,7 +36,10 @@ export default class HomeScreen extends React.Component {
 		return (
 			<View style={style.container}>
 				<StatusBar barStyle="light-content" />
-				<Text style={style.titleContainer}>☀️  CityWeather</Text>
+				<View style={{ flexDirection: 'row', backgroundColor: 'black', width: '100%', fontFamily: 'DMSans-Regular' }}>
+<TouchableHighlight onPress={() => this.navigation.openDrawer()}><View style={{ marginLeft: 20, marginRight: 20, textAlign: 'center', paddingBottom: 15, paddingTop: 15 }}><NavIcon height={30} width={30} /></View></TouchableHighlight>
+					<Text style={style.titleContainer}>☀️  CityWeather</Text>
+				</View>
 				<FlatList
 					data={this.state.cities}
 					refreshing={this.state.refreshing}
@@ -79,9 +86,9 @@ export default class HomeScreen extends React.Component {
 	}
 	
 	fetchCitiesTemperature = () => {	
-		this.getRandomCities(DEFAULT_CITIES, 2).forEach(city => this.fetchCityTemperature(city.name, city.country));
-	}
-
+			this.getRandomCities(DEFAULT_CITIES, this.route.params?.number).forEach(city => this.fetchCityTemperature(city.name, city.country));
+				}
+	
 	getRandomCities = (cities, numberOfCities) => {
 		var shuffle = require('shuffle-array');
 		var randomizedCities = shuffle(cities).slice(0, numberOfCities);

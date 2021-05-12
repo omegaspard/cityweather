@@ -13,7 +13,8 @@ const descriptionRendering = require('@app/components/common/descriptionRenderin
 
 const DEFAULT_CITIES = require('@app/components/home-screen/DefaultCities').DEFAULT_CITIES;
 const style = require('@app/components/common/styles').style;
-
+// TODO: BREAK THIS TRASH CODE
+// TODO: SEPARATE THE COMPONENT FROM THE CLASS TO AVOID STATE MODIFICATION IN THE CLASS.
 
 export default class HomeScreen extends React.Component {
 	constructor(props) {
@@ -31,49 +32,12 @@ export default class HomeScreen extends React.Component {
 		this.reverseFlyingDesc = this.reverseFlyingDesc.bind(this);
 
 		this.fetchCitiesTemperature();
-	}
+	}	
 
 	render = () => {
+		let value = this.context;
+		console.log(value);
 		return (
-			<View style={style.container}>
-				<StatusBar barStyle="light-content" />
-				<View style={{ flexDirection: 'row', backgroundColor: 'black', width: '100%', fontFamily: 'DMSans-Regular' }}>
-<TouchableHighlight onPress={() => this.navigation.openDrawer()}><View style={{ marginLeft: 20, marginRight: 20, textAlign: 'center', paddingBottom: 15, paddingTop: 15 }}><NavIcon height={30} width={30} /></View></TouchableHighlight>
-					<Text style={style.titleContainer}>☀️  CityWeather</Text>
-				</View>
-				<FlatList
-					data={this.state.cities}
-					refreshing={this.state.refreshing}
-					onRefresh={this.getCitiesTemperature}
-					keyExtractor={(item, index) => index.toString()}
-					renderItem={({item, index}) => (
-						<TouchableHighlight 
-							underlayColor="white"
-							onPress={ 
-									() => 
-{										this.reverseFlyingDesc(); 
-										this.setState({flyingDescription: item.desc});
-}
-								}
-						>
-							<LinearGradient
-								colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0)']}
-								start={[0, 0.5]}
-							>
-								<View style={style.row}>
-									<Text style={[descriptionRendering.getTempRange(item.temp), style.temp]}> {descriptionRendering.getEmoji(item.type)} {item.temp} °C</Text>
-									<Text style={style.cityName}>{item.name}</Text>
-								</View>
-							</LinearGradient>
-						</TouchableHighlight>
-							)
-					}
-				/>
-				{
-					this.state.renderFlyingDescription && <FlyingDescription cityDescription={this.state.flyingDescription} closeFlyingDesc={this.reverseFlyingDesc} /> 
-				}
-
-			</View>
 		)
 	}
 
@@ -87,7 +51,7 @@ export default class HomeScreen extends React.Component {
 	}
 	
 	fetchCitiesTemperature = () => {
-			this.getRandomCities(DEFAULT_CITIES, ).forEach(city => this.fetchCityTemperature(city.name, city.country));
+			this.getRandomCities(DEFAULT_CITIES, this.state.numberOfCityToDisplay).forEach(city => this.fetchCityTemperature(city.name, city.country));
 				}
 	
 	getRandomCities = (cities, numberOfCities) => {
@@ -126,6 +90,53 @@ export default class HomeScreen extends React.Component {
 				renderFlyingDescription: !this.state.renderFlyingDescription
 			});
 	}
+}
+
+function HomeScreenComponents(props) {
+	return (
+		<View style={style.container}>
+			<StatusBar barStyle="light-content" />
+			<View style={{ flexDirection: 'row', backgroundColor: 'black', width: '100%', fontFamily: 'DMSans-Regular' }}>
+				<TouchableHighlight onPress={() => this.navigation.openDrawer()}>
+					<View style={{ marginLeft: 20, marginRight: 20, textAlign: 'center', paddingBottom: 15, paddingTop: 15 }}>
+						<NavIcon height={30} width={30} />
+					</View>
+				</TouchableHighlight>
+				<Text style={style.titleContainer}>☀️  CityWeather</Text>
+			</View>
+			<FlatList
+				data={this.state.cities}
+				refreshing={this.state.refreshing}
+				onRefresh={this.getCitiesTemperature}
+				keyExtractor={(item, index) => index.toString()}
+				renderItem={({item, index}) => (
+					<TouchableHighlight 
+						underlayColor="white"
+						onPress={ 
+							() => {
+								this.reverseFlyingDesc(); 
+								this.setState({flyingDescription: item.desc});
+							}
+						}
+						>
+						<LinearGradient
+							colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0)']}
+							start={[0, 0.5]}
+							>
+							<View style={style.row}>
+								<Text style={[descriptionRendering.getTempRange(item.temp), style.temp]}> {descriptionRendering.getEmoji(item.type)} {item.temp} °C</Text>
+								<Text style={style.cityName}>{item.name}</Text>
+							</View>
+						</LinearGradient>
+						</TouchableHighlight>
+						)
+					}
+				/>
+				{
+					this.state.renderFlyingDescription && <FlyingDescription cityDescription={this.state.flyingDescription} closeFlyingDesc={this.reverseFlyingDesc} /> 
+				}
+		</View>
+	)	
 }
 
 HomeScreen.contextType = AppSettingsContext;
